@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,11 +28,8 @@ import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
 public class SneakyCharacterManager extends JavaPlugin implements Listener {
 
     public static final String IDENTIFIER = "sneakycharacters";
-    public static final String AUTHORS = "Team Sneakymouse";
-    public static final String VERSION = "1.0.0";
-
-    private static SneakyCharacterManager instance = null;
-    private static Map<Player, Integer> taskIdMap = new HashMap<>();
+    private static final Map<Player, Integer> taskIdMap = new HashMap<>();
+    private static SneakyCharacterManager instance;
     public boolean papiActive = false;
 
     public NametagManager nametagManager;
@@ -94,19 +90,19 @@ public class SneakyCharacterManager extends JavaPlugin implements Listener {
         getServer().getPluginManager().addPermission(new Permission(IDENTIFIER + ".admin.command.*"));
         getServer().getPluginManager().addPermission(new Permission(IDENTIFIER + ".admin.bypass.*"));
 
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             papiActive = true;
             new Placeholders().register();
         }
 
-        if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
+        if (getServer().getPluginManager().getPlugin("LuckPerms") != null) {
             new ContextCalculatorCharacterTag().register();
         }
 
         for (Player player : getServer().getOnlinePlayers()) {
-            int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            int taskId = getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
                 if (!player.isOnline() || Character.isPlayedMapped(player)) {
-                    Bukkit.getScheduler().cancelTask(taskIdMap.get(player));
+                    getServer().getScheduler().cancelTask(taskIdMap.get(player));
                     taskIdMap.remove(player);
                 } else {
                     BungeeMessagingUtil.sendByteArray(player, "playerJoin", player.getUniqueId().toString());
@@ -120,8 +116,8 @@ public class SneakyCharacterManager extends JavaPlugin implements Listener {
             int respawnTimer = getConfig().getInt("respawnTimerSeconds", 600);
             respawnTimer = respawnTimer*20;
 
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
-                for(Player player : Bukkit.getOnlinePlayers()){
+            getServer().getScheduler().scheduleSyncRepeatingTask(this, ()->{
+                for(Player player : getServer().getOnlinePlayers()){
                     Character character = Character.get(player);
                     if(character == null) continue;
 
@@ -131,9 +127,7 @@ public class SneakyCharacterManager extends JavaPlugin implements Listener {
             }, respawnTimer, respawnTimer);
         }
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            Character.saveAll();
-        }, 0, 1200);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, Character::saveAll, 0, 1200);
     }
 
     @EventHandler
@@ -142,8 +136,8 @@ public class SneakyCharacterManager extends JavaPlugin implements Listener {
             Character.saveAll();
             this.nametagManager.unnickAll();
 
-            Bukkit.getScheduler().cancelTasks(this);
-            Bukkit.getAsyncScheduler().cancelTasks(this);
+            getServer().getScheduler().cancelTasks(this);
+            getServer().getAsyncScheduler().cancelTasks(this);
             this.skinQueue.stop();
             this.nameTagRefresher.stop();
         }

@@ -17,13 +17,15 @@ public class Placeholders extends PlaceholderExpansion {
     }
 
     @Override
+    @SuppressWarnings("UnstableApiUsage")
     public @NotNull String getAuthor() {
-        return SneakyCharacterManager.AUTHORS;
+        return SneakyCharacterManager.getInstance().getPluginMeta().getAuthors().get(0);
     }
 
     @Override
+    @SuppressWarnings("UnstableApiUsage")
     public @NotNull String getVersion() {
-        return SneakyCharacterManager.VERSION;
+        return SneakyCharacterManager.getInstance().getPluginMeta().getVersion();
     }
     
     @Override
