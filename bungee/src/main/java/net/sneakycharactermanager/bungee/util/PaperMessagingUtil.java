@@ -1,117 +1,52 @@
 package net.sneakycharactermanager.bungee.util;
 
-import java.util.List;
-
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-
 import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.sneakycharactermanager.bungee.Character;
 import net.sneakycharactermanager.bungee.SneakyCharacterManager;
+
+import java.io.IOException;
+import java.util.List;
 
 public class PaperMessagingUtil {
 
     public static void sendByteArray(ServerInfo server, String subChannelName, Object... objects) {
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        try {
+            ByteArrayDataOutput out = ByteStreams.newDataOutput();
+            out.writeUTF(subChannelName);
 
-        out.writeUTF(subChannelName);
-
-        for (Object object : objects) {
-            if (object.getClass() == Boolean.class)
-                out.writeBoolean((boolean) object);
-            else if (object.getClass() == Byte.class || object.getClass() == byte.class)
-                out.writeByte((int) object);
-            else if (object.getClass() == Double.class || object.getClass() == double.class)
-                out.writeDouble((double) object);
-            else if (object.getClass() == Float.class || object.getClass() == float.class)
-                out.writeFloat((float) object);
-            else if (object.getClass() == Integer.class || object.getClass() == int.class)
-                out.writeInt((int) object);
-            else if (object.getClass() == Long.class || object.getClass() == long.class)
-                out.writeLong((long) object);
-            else if (object.getClass() == Short.class || object.getClass() == short.class)
-                out.writeShort((int) object);
-            else if (object.getClass() == String.class)
-                out.writeUTF((String) object);
-            else if (object.getClass() == Character.class)
-                writeCharacter(out, (Character) object);
-            else if (object instanceof List && ((List<?>) object).isEmpty())
-                out.writeInt(0);
-            else if (object instanceof List && ((List<?>) object).get(0) instanceof Character)
-                writeCharacterList(out, (List<Character>) object);
-            else if (object instanceof List && ((List<?>) object).get(0) instanceof String)
-                writeStringList(out, (List<String>) object);
-            else {
-                SneakyCharacterManager.getInstance().getLogger().severe("SneakyCharacterManager attempted to write an unidentified object to a ByteArray!");
-                return;
+            for (Object object : objects) {
+                writeObject(out, object);
             }
-        }
 
-        server.sendData("sneakymouse:" + SneakyCharacterManager.IDENTIFIER, out.toByteArray());
-    }
-
-    public static void sendByteArray(ProxiedPlayer player, String subChannelName, Object... objects) {
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-
-        out.writeUTF(subChannelName);
-
-        for (Object object : objects) {
-            if (object.getClass() == Boolean.class)
-                out.writeBoolean((boolean) object);
-            else if (object.getClass() == Byte.class || object.getClass() == byte.class)
-                out.writeByte((int) object);
-            else if (object.getClass() == Double.class || object.getClass() == double.class)
-                out.writeDouble((double) object);
-            else if (object.getClass() == Float.class || object.getClass() == float.class)
-                out.writeFloat((float) object);
-            else if (object.getClass() == Integer.class || object.getClass() == int.class)
-                out.writeInt((int) object);
-            else if (object.getClass() == Long.class || object.getClass() == long.class)
-                out.writeLong((long) object);
-            else if (object.getClass() == Short.class || object.getClass() == short.class)
-                out.writeShort((int) object);
-            else if (object.getClass() == String.class)
-                out.writeUTF((String) object);
-            else if (object.getClass() == Character.class)
-                writeCharacter(out, (Character) object);
-            else if (object instanceof List && ((List<?>) object).isEmpty())
-                out.writeInt(0);
-            else if (object instanceof List && ((List<?>) object).get(0) instanceof Character)
-                writeCharacterList(out, (List<Character>) object);
-            else if (object instanceof List && ((List<?>) object).get(0) instanceof String)
-                writeStringList(out, (List<String>) object);
-            else {
-                SneakyCharacterManager.getInstance().getLogger().severe("SneakyCharacterManager attempted to write an unidentified object to a ByteArray!");
-                return;
-            }
-        }
-
-        player.sendData("sneakymouse:" + SneakyCharacterManager.IDENTIFIER, out.toByteArray());
-    }
-
-
-    // This function is used to serialize a List<Character>, in order to send over all the data required to build the character selection GUI
-    private static void writeCharacterList(ByteArrayDataOutput out, List<Character> characters) {
-        out.writeInt(characters.size());
-        for (Character character : characters) {
-            writeCharacter(out, character);
+            server.sendData("sneakymouse:" + SneakyCharacterManager.IDENTIFIER, out.toByteArray());
+        } catch (IOException e) {
+            SneakyCharacterManager.getInstance().getLogger().throwing("PaperMessagingUtil", "sendByteArray", e);
         }
     }
 
-    private static void writeCharacter(ByteArrayDataOutput out, Character character) {
-        out.writeUTF(character.getUUID());
-        out.writeUTF(character.getName());
-        out.writeUTF(character.getSkin());
-        out.writeBoolean(character.isSlim());
-        writeStringList(out, character.getTags());
-    }
-
-    private static void writeStringList(ByteArrayDataOutput out, List<String> strings) {
-        out.writeInt(strings.size());
-        for (String string : strings) {
-            out.writeUTF(string);
+    private static void writeObject(ByteArrayDataOutput out, Object object) throws IOException {
+        if (object instanceof Boolean bool) out.writeBoolean(bool);
+        else if (object instanceof Byte b) out.writeByte(b);
+        else if (object instanceof Double d) out.writeDouble(d);
+        else if (object instanceof Float f) out.writeFloat(f);
+        else if (object instanceof Integer i) out.writeInt(i);
+        else if (object instanceof Long l) out.writeLong(l);
+        else if (object instanceof Short s) out.writeShort(s);
+        else if (object instanceof String str) out.writeUTF(str);
+        else if (object instanceof Character character) {
+            out.writeUTF(character.getUUID());
+            out.writeUTF(character.getName());
+            out.writeUTF(character.getSkin());
+            out.writeBoolean(character.isSlim());
+            out.writeInt(character.getTags().size());
+            character.getTags().forEach(out::writeUTF);
         }
+        else if (object instanceof List<?> list) {
+            out.writeInt(list.size());
+            for (Object listObject : list) writeObject(out, listObject);
+        }
+        else throw new IOException("Don't know how to write unidentified Object '" + object.getClass() + "' to ByteArray.");
     }
-
 }

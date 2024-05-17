@@ -43,6 +43,6 @@ public class BungeeMessagingUtil {
             out.writeInt(list.size());
             for (Object listObject : list) writeToOutputStream(out, listObject);
         }
-        else throw new IOException("Don't know how to write unidentified Object to ByteArray.");
+        else throw new IOException("Don't know how to write unidentified Object '" + object.getClass() + "' to ByteArray.");
     }
 }
