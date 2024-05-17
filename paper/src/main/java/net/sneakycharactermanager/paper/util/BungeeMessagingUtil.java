@@ -13,13 +13,11 @@ import java.util.UUID;
 public class BungeeMessagingUtil {
 
     public static void sendByteArray(Player requester, String subChannelName, Object... objects) {
-        try (ByteArrayOutputStream byteArrayOutput = new ByteArrayOutputStream();
-            DataOutputStream out = new DataOutputStream(byteArrayOutput)) {
-
+        try (ByteArrayOutputStream byteArrayOutput = new ByteArrayOutputStream(); DataOutputStream out = new DataOutputStream(byteArrayOutput)) {
             out.writeUTF(subChannelName + "_UUID:" + UUID.randomUUID());
 
             for (Object object : objects) {
-                writeToOutputStream(out, object);
+                writeToDataOutput(out, object);
             }
 
             SneakyCharacterManager plugin = SneakyCharacterManager.getInstance();
@@ -30,7 +28,7 @@ public class BungeeMessagingUtil {
         }
     }
 
-    private static void writeToOutputStream(DataOutputStream out, Object object) throws IOException {
+    private static void writeToDataOutput(DataOutputStream out, Object object) throws IOException {
         if (object instanceof Boolean bool) out.writeBoolean(bool);
         else if (object instanceof Byte b) out.writeByte(b);
         else if (object instanceof Double d) out.writeDouble(d);
@@ -41,8 +39,8 @@ public class BungeeMessagingUtil {
         else if (object instanceof String str) out.writeUTF(str);
         else if (object instanceof List<?> list) {
             out.writeInt(list.size());
-            for (Object listObject : list) writeToOutputStream(out, listObject);
+            for (Object listObject : list) writeToDataOutput(out, listObject);
         }
-        else throw new IOException("Don't know how to write unidentified Object '" + object.getClass() + "' to ByteArray.");
+        else throw new IOException("Don't know how to write unidentified Object '" + object.getClass() + "' to DataOutput.");
     }
 }

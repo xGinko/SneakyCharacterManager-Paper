@@ -17,7 +17,7 @@ public class PaperMessagingUtil {
             out.writeUTF(subChannelName);
 
             for (Object object : objects) {
-                writeObject(out, object);
+                writeToDataOutput(out, object);
             }
 
             server.sendData("sneakymouse:" + SneakyCharacterManager.IDENTIFIER, out.toByteArray());
@@ -26,7 +26,7 @@ public class PaperMessagingUtil {
         }
     }
 
-    private static void writeObject(ByteArrayDataOutput out, Object object) throws IOException {
+    private static void writeToDataOutput(ByteArrayDataOutput out, Object object) throws IOException {
         if (object instanceof Boolean bool) out.writeBoolean(bool);
         else if (object instanceof Byte b) out.writeByte(b);
         else if (object instanceof Double d) out.writeDouble(d);
@@ -41,12 +41,12 @@ public class PaperMessagingUtil {
             out.writeUTF(character.getSkin());
             out.writeBoolean(character.isSlim());
             out.writeInt(character.getTags().size());
-            character.getTags().forEach(out::writeUTF);
+            for (String str : character.getTags()) out.writeUTF(str);
         }
         else if (object instanceof List<?> list) {
             out.writeInt(list.size());
-            for (Object listObject : list) writeObject(out, listObject);
+            for (Object listObject : list) writeToDataOutput(out, listObject);
         }
-        else throw new IOException("Don't know how to write unidentified Object '" + object.getClass() + "' to ByteArray.");
+        else throw new IOException("Don't know how to write unidentified Object '" + object.getClass() + "' to DataOutput.");
     }
 }
