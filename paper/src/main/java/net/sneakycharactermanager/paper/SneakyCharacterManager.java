@@ -1,17 +1,13 @@
 package net.sneakycharactermanager.paper;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import net.sneakycharactermanager.paper.admincommands.*;
-import net.sneakycharactermanager.paper.commands.*;
-import net.sneakycharactermanager.paper.consolecommands.*;
-import net.sneakycharactermanager.paper.listeners.*;
+import net.sneakycharactermanager.paper.commands.CommandChar;
+import net.sneakycharactermanager.paper.commands.CommandNames;
+import net.sneakycharactermanager.paper.commands.CommandNick;
+import net.sneakycharactermanager.paper.commands.CommandSkin;
+import net.sneakycharactermanager.paper.consolecommands.ConsoleCommandCharDisable;
+import net.sneakycharactermanager.paper.consolecommands.ConsoleCommandCharEnable;
+import net.sneakycharactermanager.paper.consolecommands.ConsoleCommandCharTemp;
 import net.sneakycharactermanager.paper.handlers.ContextCalculatorCharacterTag;
 import net.sneakycharactermanager.paper.handlers.Placeholders;
 import net.sneakycharactermanager.paper.handlers.character.Character;
@@ -20,7 +16,15 @@ import net.sneakycharactermanager.paper.handlers.nametags.NameTagRefresher;
 import net.sneakycharactermanager.paper.handlers.nametags.NametagManager;
 import net.sneakycharactermanager.paper.handlers.skins.SkinPreloader;
 import net.sneakycharactermanager.paper.handlers.skins.SkinQueue;
+import net.sneakycharactermanager.paper.listeners.*;
 import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SneakyCharacterManager extends JavaPlugin {
 
@@ -69,7 +73,6 @@ public class SneakyCharacterManager extends JavaPlugin {
         getServer().getMessenger().registerIncomingPluginChannel(this, "sneakymouse:" + IDENTIFIER, new BungeeMessageListener());
         getServer().getMessenger().registerOutgoingPluginChannel(this, "sneakymouse:" + IDENTIFIER);
 
-        getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new ConnectionEventListeners(), this);
         getServer().getPluginManager().registerEvents(selectionMenu, this);
         getServer().getPluginManager().registerEvents(new DeathListener(), this);
