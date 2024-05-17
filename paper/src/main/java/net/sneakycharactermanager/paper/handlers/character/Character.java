@@ -1,19 +1,8 @@
 package net.sneakycharactermanager.paper.handlers.character;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.annotation.Nullable;
-
+import net.sneakycharactermanager.paper.SneakyCharacterManager;
+import net.sneakycharactermanager.paper.consolecommands.ConsoleCommandCharDisable;
+import net.sneakycharactermanager.paper.util.InventoryUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,20 +15,24 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-import net.sneakycharactermanager.paper.SneakyCharacterManager;
-import net.sneakycharactermanager.paper.consolecommands.ConsoleCommandCharDisable;
-import net.sneakycharactermanager.paper.util.InventoryUtility;
+import javax.annotation.Nullable;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Character {
 
-    private static Map<Player, Character> characterMap = new HashMap<>();
+    private static final Map<Player, Character> characterMap = new HashMap<>();
 
-    private Player player;
-    private String characterUUID;
+    private final Player player;
+    private final String characterUUID;
     private String name;
     private String skin;
     private boolean slim;
-    private List<String> tags = new ArrayList<>();
+    private List<String> tags;
 
     private boolean firstLoad = false;
 
@@ -91,7 +84,7 @@ public class Character {
                 try {
                     config.save(characterFile);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    SneakyCharacterManager.logger().error("Error saving file for character {}, UUID: {}", name, characterUUID, e);
                 }
             }
         }
@@ -107,7 +100,7 @@ public class Character {
         File characterFile = new File(playerDir, this.characterUUID + ".yml");
 
         if (!characterFile.exists()) {
-            SneakyCharacterManager.getInstance().getLogger().severe("SneakyCharacterManager attempted to load character data from a file that does not exist: " + this.characterUUID);
+            SneakyCharacterManager.logger().error("Attempted to load character data from a file that does not exist: {}", this.characterUUID);
             return;
         }
 
@@ -148,7 +141,6 @@ public class Character {
             characterMap.put(this.player, this);
             ConsoleCommandCharDisable.playerCharEnable(this.player.getUniqueId().toString());
         }
-
     }
 
     public Player getPlayer() {
@@ -233,7 +225,7 @@ public class Character {
         try {
             config.save(characterFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            SneakyCharacterManager.logger().error("Error saving file for character {}, UUID: {}", name, characterUUID, e);
         }
     }
 
@@ -256,7 +248,7 @@ public class Character {
                 Character character = get(player);
                 if (character != null) character.save();
             } else {
-                SneakyCharacterManager.getInstance().getLogger().severe("SneakyCharacterManager found an offline player on the characterMap. They have been removed, but this should never happen: " + player.getName());
+                SneakyCharacterManager.logger().error("Found an offline player on the characterMap. They have been removed, but this should never happen: {}", player.getName());
                 characterMap.remove(player);
             }
         }
@@ -276,14 +268,7 @@ public class Character {
             }
         }
 
-        if (
-            (characterPerm == null && !player.hasPermission(SneakyCharacterManager.IDENTIFIER + ".character.*")) ||
-            (characterPerm != null && !characterPerm)
-        ) {
-            return false;
-        }
-
-        return true;
+        return (characterPerm != null || player.hasPermission(SneakyCharacterManager.IDENTIFIER + ".character.*")) &&
+                (characterPerm == null || characterPerm);
     }
-
 }

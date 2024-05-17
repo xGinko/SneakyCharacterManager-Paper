@@ -1,14 +1,5 @@
 package net.sneakycharactermanager.paper.listeners;
 
-import java.util.*;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-
 import net.sneakycharactermanager.paper.SneakyCharacterManager;
 import net.sneakycharactermanager.paper.commands.CommandChar;
 import net.sneakycharactermanager.paper.consolecommands.ConsoleCommandCharDisable;
@@ -16,10 +7,19 @@ import net.sneakycharactermanager.paper.consolecommands.ConsoleCommandCharTemp;
 import net.sneakycharactermanager.paper.handlers.character.Character;
 import net.sneakycharactermanager.paper.handlers.skins.SkinCache;
 import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConnectionEventListeners implements Listener {
 
-    private static Map<Player, Integer> taskIdMap = new HashMap<>();
+    private static final Map<Player, Integer> taskIdMap = new HashMap<>();
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -63,12 +63,12 @@ public class ConnectionEventListeners implements Listener {
         Character character = Character.get(player);
 
         if (character == null) {
-            if (!ConsoleCommandCharDisable.isPlayerCharDisabled(player.getUniqueId().toString())) SneakyCharacterManager.getInstance().getLogger().severe("SneakyCharacterManager found a player who quit out but wasn't a character. This should never happen: " + player.getName());
+            if (!ConsoleCommandCharDisable.isPlayerCharDisabled(player.getUniqueId().toString()))
+                SneakyCharacterManager.logger().error("{} quit the game but wasn't a character. This should never happen.", player.getName());
         } else {
             character.save();
         }
+
         Character.remove(player);
-
     }
-
 }

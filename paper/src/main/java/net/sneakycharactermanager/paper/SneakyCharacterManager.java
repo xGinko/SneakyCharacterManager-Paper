@@ -1,5 +1,6 @@
 package net.sneakycharactermanager.paper;
 
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.sneakycharactermanager.paper.admincommands.*;
 import net.sneakycharactermanager.paper.commands.CommandChar;
 import net.sneakycharactermanager.paper.commands.CommandNames;
@@ -38,11 +39,13 @@ public class SneakyCharacterManager extends JavaPlugin {
     public NameTagRefresher nameTagRefresher;
 
     private static SneakyCharacterManager instance;
+    private static ComponentLogger logger;
     private static boolean papiActive = false;
 
     @Override
     public void onEnable() {
         instance = this;
+        logger = getComponentLogger();
         nametagManager = new NametagManager();
         selectionMenu = new CharacterSelectionMenu();
         skinQueue = new SkinQueue();
@@ -145,6 +148,10 @@ public class SneakyCharacterManager extends JavaPlugin {
 
     public static SneakyCharacterManager getInstance() {
         return instance;
+    }
+
+    public static ComponentLogger logger() {
+        return logger;
     }
 
     public static boolean isPapiActive() {

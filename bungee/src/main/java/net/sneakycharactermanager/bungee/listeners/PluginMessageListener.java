@@ -1,13 +1,7 @@
 package net.sneakycharactermanager.bungee.listeners;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.Connection;
@@ -21,6 +15,11 @@ import net.sneakycharactermanager.bungee.PlayerData;
 import net.sneakycharactermanager.bungee.SneakyCharacterManager;
 import net.sneakycharactermanager.bungee.util.PaperMessagingUtil;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 public class PluginMessageListener implements Listener {
 
     private List<String> handledRequests;
@@ -29,10 +28,8 @@ public class PluginMessageListener implements Listener {
     }
 
     @EventHandler
-    public void on(PluginMessageEvent event)
-    {
-        if (!event.getTag().equalsIgnoreCase("sneakymouse:" + SneakyCharacterManager.IDENTIFIER))
-        {
+    public void on(PluginMessageEvent event) {
+        if (!event.getTag().equalsIgnoreCase("sneakymouse:" + SneakyCharacterManager.IDENTIFIER)) {
             return;
         }
 
@@ -55,7 +52,7 @@ public class PluginMessageListener implements Listener {
         String uuid = _data[1];
 
         if(handledRequests.contains(uuid)){
-            SneakyCharacterManager.getInstance().getLogger().warning("Recieved duplicated message! Ignoring");
+            SneakyCharacterManager.getInstance().getLogger().warning("Received duplicate message! Ignoring");
             return;
         }
 

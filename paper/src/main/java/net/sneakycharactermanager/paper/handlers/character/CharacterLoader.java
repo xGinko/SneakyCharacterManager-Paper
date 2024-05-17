@@ -1,5 +1,17 @@
 package net.sneakycharactermanager.paper.handlers.character;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
+import net.sneakycharactermanager.paper.SneakyCharacterManager;
+import net.sneakycharactermanager.paper.consolecommands.ConsoleCommandCharTemp;
+import net.sneakycharactermanager.paper.handlers.skins.SkinCache;
+import net.sneakycharactermanager.paper.handlers.skins.SkinData;
+import net.sneakycharactermanager.paper.util.SkinUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.profile.PlayerTextures;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,21 +21,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-
-import javax.imageio.ImageIO;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.profile.PlayerTextures;
-
-import com.destroystokyo.paper.profile.PlayerProfile;
-import com.destroystokyo.paper.profile.ProfileProperty;
-
-import net.sneakycharactermanager.paper.SneakyCharacterManager;
-import net.sneakycharactermanager.paper.consolecommands.ConsoleCommandCharTemp;
-import net.sneakycharactermanager.paper.handlers.skins.SkinCache;
-import net.sneakycharactermanager.paper.handlers.skins.SkinData;
-import net.sneakycharactermanager.paper.util.SkinUtil;
 
 public class CharacterLoader {
 
@@ -55,6 +52,7 @@ public class CharacterLoader {
                     SkinData.getOrCreate(url, character.isSlim(), 2, player);
                 }
             } else {
+
                 player.setPlayerProfile(SkinUtil.handleCachedSkin(player, profileProperty));
             }
 
@@ -71,7 +69,7 @@ public class CharacterLoader {
         
         if (url == null || url.isEmpty() || !url.startsWith("http")) {
             if (url != null && !url.isEmpty()) {
-                SneakyCharacterManager.getInstance().getLogger().warning("Invalid Skin URL Received? Was this our fault?");
+                SneakyCharacterManager.logger().warn("Invalid Skin URL Received. Was this our fault?");
             }
     
             if (character.getName() == null || character.getName().isEmpty()) {
@@ -121,7 +119,7 @@ public class CharacterLoader {
                 }
             }
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            e.printStackTrace();
+            SneakyCharacterManager.logger().error("Error while getting skin image.", e);
         }
 
         final boolean slimFinal = slim;

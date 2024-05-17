@@ -1,20 +1,16 @@
 package net.sneakycharactermanager.paper.handlers.skins;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
+import net.sneakycharactermanager.paper.SneakyCharacterManager;
+import net.sneakycharactermanager.paper.handlers.character.Character;
+import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
+import net.sneakycharactermanager.paper.util.SkinUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -27,13 +23,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.destroystokyo.paper.profile.PlayerProfile;
-import com.destroystokyo.paper.profile.ProfileProperty;
-
-import net.sneakycharactermanager.paper.SneakyCharacterManager;
-import net.sneakycharactermanager.paper.handlers.character.Character;
-import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
-import net.sneakycharactermanager.paper.util.SkinUtil;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SkinData {
 
@@ -116,7 +113,7 @@ public class SkinData {
      * */
     public boolean convertSkinURL() {
         this.attempts++;
-        if (MINESKIN_AUTH == null) SneakyCharacterManager.getInstance().getLogger().warning("You must set a mineskin auth token in the config.yml file to apply skins.");
+        if (MINESKIN_AUTH == null) SneakyCharacterManager.logger().warn("You must set a mineskin auth token in the config to apply skins.");
         SneakyCharacterManager.getInstance().skinPreloader.requestsThisMinute++;
         //Make a request to MineSkin to change skin data!
 
@@ -145,8 +142,7 @@ public class SkinData {
                 }
                 JSONObject dataObject = (JSONObject) result.get("data");
                 if (dataObject == null) {
-                    if (result.toString().contains("Too many requests")) return true;
-                    return false;
+                    return result.toString().contains("Too many requests");
                 }
                 JSONObject textureObject = (JSONObject) dataObject.get("texture");
 
@@ -154,8 +150,7 @@ public class SkinData {
                 this.signature = (String) textureObject.get("signature");
             }
         } catch (IOException | URISyntaxException | ParseException e) {
-            e.printStackTrace();
-            Bukkit.getLogger().severe("Something went very wrong!");
+            SneakyCharacterManager.logger().error("Error while converting skin URL!", e);
             return false;
         }
         this.isValid = true;
@@ -198,7 +193,7 @@ public class SkinData {
 
                     String skinURL = textures.getSkin().toString();
 
-                    SneakyCharacterManager.getInstance().getLogger().info("Skin Update: [" + this.player.getName() + "," + character.getNameUnformatted() + "," + skinURL + "]");
+                    SneakyCharacterManager.logger().info("Player {} just updated the skin for character {}, using url {}", this.player.getName(), character.getNameUnformatted(), skinURL);
 
                     character.setSkin(skinURL);
                     character.setSlim(this.isSlim());

@@ -1,21 +1,11 @@
 package net.sneakycharactermanager.paper.listeners;
 
-import java.util.*;
-
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.event.HoverEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.bukkit.profile.PlayerTextures;
-import org.jetbrains.annotations.NotNull;
-
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.sneakycharactermanager.paper.SneakyCharacterManager;
 import net.sneakycharactermanager.paper.commands.CommandChar;
 import net.sneakycharactermanager.paper.consolecommands.ConsoleCommandCharTemp;
@@ -24,6 +14,16 @@ import net.sneakycharactermanager.paper.handlers.skins.SkinCache;
 import net.sneakycharactermanager.paper.handlers.skins.SkinData;
 import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
 import net.sneakycharactermanager.paper.util.ChatUtility;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.bukkit.profile.PlayerTextures;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class BungeeMessageListener implements PluginMessageListener
 {
@@ -73,7 +73,7 @@ public class BungeeMessageListener implements PluginMessageListener
                 playerUUID = in.readUTF();
                 String characterUUID = in.readUTF();
 
-                SneakyCharacterManager.getInstance().getLogger().warning("An attempt was made to load a temp character but it did not exist: [" + playerUUID + "," + characterUUID + "]");
+                SneakyCharacterManager.logger().warn("Tried to load a temp character that didn't exist: [ Requester: {}, Character: {} ]", playerUUID, characterUUID);
                 break;
             case "characterSelectionGUI" :
                 playerUUID = in.readUTF();
@@ -127,7 +127,7 @@ public class BungeeMessageListener implements PluginMessageListener
                 handleCharacterOutput(playerUUID, characterData);
                 break;
             default:
-                SneakyCharacterManager.getInstance().getLogger().severe("SneakyCharacterManager received a packet but the subchannel was unknown: " + subChannel);
+                SneakyCharacterManager.logger().error("Received a packet with unknown sub channel: {}", subChannel);
                 break;
         }
     }

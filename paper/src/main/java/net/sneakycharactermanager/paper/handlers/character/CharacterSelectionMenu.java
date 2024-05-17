@@ -1,10 +1,16 @@
 package net.sneakycharactermanager.paper.handlers.character;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
+import com.destroystokyo.paper.profile.ProfileProperty;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.sneakycharactermanager.paper.SneakyCharacterManager;
+import net.sneakycharactermanager.paper.commands.CommandChar;
+import net.sneakycharactermanager.paper.handlers.skins.SkinCache;
+import net.sneakycharactermanager.paper.handlers.skins.SkinData;
+import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
+import net.sneakycharactermanager.paper.util.ChatUtility;
 import net.sneakycharactermanager.paper.util.InventoryUtility;
+import net.sneakycharactermanager.paper.util.SkinUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -25,21 +31,14 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import com.destroystokyo.paper.profile.ProfileProperty;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.sneakycharactermanager.paper.SneakyCharacterManager;
-import net.sneakycharactermanager.paper.commands.CommandChar;
-import net.sneakycharactermanager.paper.handlers.skins.SkinCache;
-import net.sneakycharactermanager.paper.handlers.skins.SkinData;
-import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
-import net.sneakycharactermanager.paper.util.ChatUtility;
-import net.sneakycharactermanager.paper.util.SkinUtil;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public class CharacterSelectionMenu implements Listener {
 
-    Map<String, CharacterMenuHolder> activeMenus;
+    private final Map<String, CharacterMenuHolder> activeMenus;
 
     protected NamespacedKey characterKey;
 
@@ -56,8 +55,8 @@ public class CharacterSelectionMenu implements Listener {
         protected OfflinePlayer offlinePlayer = null;
         protected Player player = null;
         protected final Player opener;
-        private Inventory inventory;
-        private List<SkinData> queuedDatas = new ArrayList<>();
+        private final Inventory inventory;
+        private final List<SkinData> queuedDatas = new ArrayList<>();
 
         boolean updated = false;
 
@@ -93,8 +92,6 @@ public class CharacterSelectionMenu implements Listener {
                         ChatUtility.convertToComponent("&e" + this.player.getName() + "'s Characters")
                 );
             }
-
-
 
             requestCharacterList();
         }
@@ -238,12 +235,12 @@ public class CharacterSelectionMenu implements Listener {
         }
     }
 
-    public class AdminInventoryHolder implements InventoryHolder {
+    public static class AdminInventoryHolder implements InventoryHolder {
 
-        private Player opener;
-        private OfflinePlayer target;
-        private String characterUUID;
-        private ItemStack[] contents;
+        private final Player opener;
+        private final OfflinePlayer target;
+        private final String characterUUID;
+        private final ItemStack[] contents;
 
         private Inventory inventory;
 
@@ -289,7 +286,7 @@ public class CharacterSelectionMenu implements Listener {
                 config.save(characterFile);
                 this.opener.sendMessage(ChatUtility.convertToComponent("&eSaved character inventory!"));
             } catch (IOException e) {
-                e.printStackTrace();
+                SneakyCharacterManager.logger().error("Failed to save character inventory on Character Selection Menu close.", e);
             }
         }
 
@@ -357,7 +354,6 @@ public class CharacterSelectionMenu implements Listener {
 
                 AdminInventoryHolder holder = new AdminInventoryHolder(this.opener, (this.player == null ? this.offlinePlayer : this.player), characterUUID, inventoryContents);
                 this.opener.openInventory(holder.getInventory());
-
             }, 2);
         }
     
@@ -396,7 +392,7 @@ public class CharacterSelectionMenu implements Listener {
 
     public void updateInventory(String playerUUID, List<Character> characters) {
         if (!menuExists(playerUUID)) {
-            SneakyCharacterManager.getInstance().getLogger().warning("Attempted to update invalid inventory!");
+            SneakyCharacterManager.logger().warn("Attempted to update invalid inventory for {}", playerUUID);
             return;
         }
         CharacterMenuHolder holder = activeMenus.get(playerUUID);
@@ -462,7 +458,7 @@ public class CharacterSelectionMenu implements Listener {
     @EventHandler
     public void onInventoryInteract(InventoryInteractEvent event) {
         Inventory inventory = event.getView().getTopInventory();
-        if (!(inventory.getHolder() instanceof CharacterMenuHolder characterMenuHolder)) return;
+        if (!(inventory.getHolder() instanceof CharacterMenuHolder)) return;
         event.setCancelled(true); //Shouldnt be able to interact with anything if they are in Character Selection
     }
 

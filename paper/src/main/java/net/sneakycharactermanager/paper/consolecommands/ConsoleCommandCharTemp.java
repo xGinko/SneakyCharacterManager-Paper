@@ -1,10 +1,8 @@
 package net.sneakycharactermanager.paper.consolecommands;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import net.sneakycharactermanager.paper.SneakyCharacterManager;
+import net.sneakycharactermanager.paper.commands.CommandChar;
+import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -12,13 +10,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import net.sneakycharactermanager.paper.SneakyCharacterManager;
-import net.sneakycharactermanager.paper.commands.CommandChar;
-import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ConsoleCommandCharTemp extends CommandBaseConsole {
 
-    private static Map<String, TempCharEntry> tempEntries = new HashMap<>();
+    private static final Map<String, TempCharEntry> tempEntries = new HashMap<>();
 
     public ConsoleCommandCharTemp() {
         super("chartemp");
@@ -47,7 +46,7 @@ public class ConsoleCommandCharTemp extends CommandBaseConsole {
 
         String uuid = args[1];
 
-        boolean valid = uuid.equals("template") ? true : false;
+        boolean valid = uuid.equals("template");
 
         if (!valid) {
             for (@NotNull OfflinePlayer opl : Bukkit.getOfflinePlayers()) {
@@ -55,7 +54,7 @@ public class ConsoleCommandCharTemp extends CommandBaseConsole {
                     valid = true;
                     uuid = opl.getUniqueId().toString();
                     break;
-                } else if (opl.getUniqueId() != null && opl.getUniqueId().toString().equals(uuid)) {
+                } else if (opl.getUniqueId().toString().equals(uuid)) {
                     valid = true;
                     break;
                 }
@@ -72,7 +71,7 @@ public class ConsoleCommandCharTemp extends CommandBaseConsole {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args, Location location) {
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args, Location location) {
         if (args.length == 1) {
             List<String> playerNames = new ArrayList<>();
 
@@ -126,23 +125,12 @@ public class ConsoleCommandCharTemp extends CommandBaseConsole {
         TempCharEntry entry = tempEntries.get(playerUUID);
 
         if (entry == null) {
-            SneakyCharacterManager.getInstance().getLogger().warning("An attempt was made to reApply a temp character for a player that isn't on a temp character: [" + playerUUID + "]");
+            SneakyCharacterManager.logger().warn("Attempted to reapply a temp character for player {} that isn't on a temp character [UUID: {}].", requester.getName(), playerUUID);
             return;
         }
 
         BungeeMessagingUtil.sendByteArray(requester, "tempCharacter", playerUUID, entry.characterSource, entry.characterID);
     }
 
-    private static class TempCharEntry {
-        
-        private String characterSource;
-        private String characterID;
-
-        private TempCharEntry(String characterSource, String characterID) {
-            this.characterSource = characterSource;
-            this.characterID = characterID;
-        }
-
-    }
-    
+    private record TempCharEntry(String characterSource, String characterID) {}
 }

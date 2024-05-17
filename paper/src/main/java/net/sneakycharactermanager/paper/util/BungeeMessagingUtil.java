@@ -1,20 +1,18 @@
 package net.sneakycharactermanager.paper.util;
 
+import net.sneakycharactermanager.paper.SneakyCharacterManager;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.messaging.PluginMessageRecipient;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.entity.Player;
-
-import net.sneakycharactermanager.paper.SneakyCharacterManager;
-import org.bukkit.plugin.messaging.PluginMessageRecipient;
-
 public class BungeeMessagingUtil {
 
     public static void sendByteArray(Player requester, String subChannelName, Object... objects) {
-        SneakyCharacterManager plugin = SneakyCharacterManager.getInstance();
         try (ByteArrayOutputStream byteArrayOutput = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(byteArrayOutput)) {
 
@@ -24,10 +22,11 @@ public class BungeeMessagingUtil {
                 writeToOutputStream(out, object);
             }
 
+            SneakyCharacterManager plugin = SneakyCharacterManager.getInstance();
             PluginMessageRecipient recipient = requester == null ? plugin.getServer() : requester;
             recipient.sendPluginMessage(plugin, "sneakymouse:" + SneakyCharacterManager.IDENTIFIER, byteArrayOutput.toByteArray());
         } catch (IOException e) {
-            plugin.getServer().getLogger().throwing("BungeeMessagingUtil", "sendByteArray", e);
+            SneakyCharacterManager.logger().error("Failed while sending PluginMessage.", e);
         }
     }
 
@@ -44,6 +43,6 @@ public class BungeeMessagingUtil {
             out.writeInt(list.size());
             for (Object listObject : list) writeToOutputStream(out, listObject);
         }
-        else throw new IOException("Cannot write unidentified Object to ByteArray.");
+        else throw new IOException("Don't know how to write unidentified Object to ByteArray.");
     }
 }
