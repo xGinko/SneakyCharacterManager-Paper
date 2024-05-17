@@ -30,14 +30,15 @@ public class SneakyCharacterManager extends JavaPlugin {
 
     public static final String IDENTIFIER = "sneakycharacters";
     private static final Map<Player, Integer> taskIdMap = new HashMap<>();
-    private static SneakyCharacterManager instance;
-    public boolean papiActive = false;
 
     public NametagManager nametagManager;
     public CharacterSelectionMenu selectionMenu;
     public SkinQueue skinQueue;
     public SkinPreloader skinPreloader;
     public NameTagRefresher nameTagRefresher;
+
+    private static SneakyCharacterManager instance;
+    private static boolean papiActive = false;
 
     @Override
     public void onEnable() {
@@ -144,6 +145,10 @@ public class SneakyCharacterManager extends JavaPlugin {
 
     public static SneakyCharacterManager getInstance() {
         return instance;
+    }
+
+    public static boolean isPapiActive() {
+        return papiActive;
     }
 
     public static File getCharacterDataFolder() {

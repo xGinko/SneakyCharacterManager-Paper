@@ -1,13 +1,15 @@
 package net.sneakycharactermanager.paper.handlers.nametags;
 
-import java.util.*;
-
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.sneakycharactermanager.paper.SneakyCharacterManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-import me.clip.placeholderapi.PlaceholderAPI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -33,7 +35,7 @@ public class NametagManager {
      * @param nickname Nickname to set onto the player
      * */
     public void nicknamePlayer(Player player, String nickname) {
-        if (player.isDead() || player.getGameMode() == GameMode.SPECTATOR || (SneakyCharacterManager.getInstance().papiActive && PlaceholderAPI.setPlaceholders(player, "%cmi_user_vanished_symbol%") != null && !PlaceholderAPI.setPlaceholders(player, "%cmi_user_vanished_symbol%").isEmpty())) return;
+        if (player.isDead() || player.getGameMode() == GameMode.SPECTATOR || (SneakyCharacterManager.isPapiActive() && !PlaceholderAPI.setPlaceholders(player, "%cmi_user_vanished_symbol%").isEmpty())) return;
 
         if (!nicknames.containsKey(player.getUniqueId().toString())) {
             nicknames.put(player.getUniqueId().toString(), new Nickname(player, nickname));
@@ -160,9 +162,6 @@ public class NametagManager {
      * Remove the nickname entities of all players.
      * */
     public void unnickAll() {
-        nicknames.values().forEach(entry -> {
-            entry.unNick();
-        });
+        nicknames.values().forEach(Nickname::unNick);
     }
-
 }

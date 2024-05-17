@@ -1,23 +1,22 @@
 package net.sneakycharactermanager.paper.handlers.nametags;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
+import me.clip.placeholderapi.PlaceholderAPI;
+import net.sneakycharactermanager.paper.SneakyCharacterManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import net.sneakycharactermanager.paper.SneakyCharacterManager;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class NameTagRefresher extends BukkitRunnable {
 
-    private BukkitTask task = null;
-    private ConcurrentMap<Player, List<Player>> trackedByPrev = new ConcurrentHashMap<>();
+    private final BukkitTask task;
+    private final ConcurrentMap<Player, List<Player>> trackedByPrev = new ConcurrentHashMap<>();
 
     public NameTagRefresher() {
         this.task = runTaskTimer(SneakyCharacterManager.getInstance(), 0, 20);
@@ -33,7 +32,7 @@ public class NameTagRefresher extends BukkitRunnable {
             Nickname name = SneakyCharacterManager.getInstance().nametagManager.getNickname(player);
             if (player.isDead() ||
                 player.getGameMode() == GameMode.SPECTATOR ||
-                (SneakyCharacterManager.getInstance().papiActive && PlaceholderAPI.setPlaceholders(player, "%cmi_user_vanished_symbol%") != null && !PlaceholderAPI.setPlaceholders(player, "%cmi_user_vanished_symbol%").isEmpty()) ||
+                (SneakyCharacterManager.isPapiActive() && !PlaceholderAPI.setPlaceholders(player, "%cmi_user_vanished_symbol%").isEmpty()) ||
                 name == null
             ) {
                 trackedByPrev.put(player, new ArrayList<>());
