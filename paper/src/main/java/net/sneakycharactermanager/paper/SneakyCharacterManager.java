@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,7 +22,7 @@ import net.sneakycharactermanager.paper.handlers.skins.SkinPreloader;
 import net.sneakycharactermanager.paper.handlers.skins.SkinQueue;
 import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
 
-public class SneakyCharacterManager extends JavaPlugin implements Listener {
+public class SneakyCharacterManager extends JavaPlugin {
 
     public static final String IDENTIFIER = "sneakycharacters";
     private static final Map<Player, Integer> taskIdMap = new HashMap<>();
@@ -130,17 +127,16 @@ public class SneakyCharacterManager extends JavaPlugin implements Listener {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, Character::saveAll, 0, 1200);
     }
 
-    @EventHandler
-    public void onPluginDisable(PluginDisableEvent event) {
-        if (event.getPlugin() == this) {
-            Character.saveAll();
-            this.nametagManager.unnickAll();
+    @Override
+    public void onDisable() {
+        Character.saveAll();
+        this.nametagManager.unnickAll();
 
-            getServer().getScheduler().cancelTasks(this);
-            getServer().getAsyncScheduler().cancelTasks(this);
-            this.skinQueue.stop();
-            this.nameTagRefresher.stop();
-        }
+        getServer().getScheduler().cancelTasks(this);
+        getServer().getAsyncScheduler().cancelTasks(this);
+
+        this.skinQueue.stop();
+        this.nameTagRefresher.stop();
     }
 
     public static SneakyCharacterManager getInstance() {
@@ -149,7 +145,6 @@ public class SneakyCharacterManager extends JavaPlugin implements Listener {
 
     public static File getCharacterDataFolder() {
         File dir = new File(getInstance().getDataFolder(), "characterdata");
-
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -177,5 +172,4 @@ public class SneakyCharacterManager extends JavaPlugin implements Listener {
             }
         }
     }
-
 }
