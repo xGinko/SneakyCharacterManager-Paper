@@ -38,47 +38,42 @@ public class CharacterLoader {
                 character.getTags()
         );
 
-        Bukkit.getServer().getPluginManager().callEvent(event);
-
-        if (!event.isCancelled()) {
-            ConsoleCommandCharTemp.playerTempCharRemove(player.getUniqueId().toString());
-
-            ProfileProperty profileProperty = SkinCache.get(player.getUniqueId().toString(), url);
-
-            character.setFirstLoad(false);
-
-            if (profileProperty == null) {
-                if (!shouldSkipLoading(character)) {
-                    SkinData.getOrCreate(url, character.isSlim(), 2, player);
-                }
-            } else {
-
-                player.setPlayerProfile(SkinUtil.handleCachedSkin(player, profileProperty));
-            }
-
-            SneakyCharacterManagerPaper.getInstance().nametagManager.nicknamePlayer(player, character.getName());
-            
-            return true;
+        if (!event.callEvent()) {
+            return false;
         }
-        return false;
+
+        ConsoleCommandCharTemp.playerTempCharRemove(player.getUniqueId().toString());
+
+        ProfileProperty profileProperty = SkinCache.get(player.getUniqueId().toString(), url);
+
+        character.setFirstLoad(false);
+
+        if (profileProperty == null) {
+            if (!shouldSkipLoading(character)) {
+                SkinData.getOrCreate(url, character.isSlim(), 2, player);
+            }
+        } else {
+            player.setPlayerProfile(SkinUtil.handleCachedSkin(player, profileProperty));
+        }
+
+        SneakyCharacterManagerPaper.getInstance().nametagManager.nicknamePlayer(player, character.getName());
+
+        return true;
     }
 
     
     private static boolean shouldSkipLoading(Character character) {
         String url = character.getSkin();
-        
-        if (url == null || url.isEmpty() || !url.startsWith("http")) {
-            if (url != null && !url.isEmpty()) {
+
+        if (url != null) {
+            if (url.startsWith("http")) {
+                return false;
+            } else {
                 SneakyCharacterManagerPaper.logger().warn("Invalid Skin URL Received. Was this our fault?");
             }
-    
-            if (character.getName() == null || character.getName().isEmpty()) {
-                return true;
-            }
-    
-            return true;
         }
-        return false;
+
+        return true;
     }
 
     public static void updateSkin(Player player, String url, Boolean slim) {
@@ -96,10 +91,11 @@ public class CharacterLoader {
     private static void checkSlimThenSetSkin(String url, boolean slim, Player player) {
         try {
             HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(
-                new URI(url.replace("imgur", "filmot")))
-                .timeout(Duration.ofSeconds(2))
-                .build();
+
+            HttpRequest request = HttpRequest.newBuilder().uri(new URI(url.replace("imgur", "filmot")))
+                    .timeout(Duration.ofSeconds(2))
+                    .build();
+
             HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
 
             // Check the HTTP response status
@@ -123,9 +119,8 @@ public class CharacterLoader {
         }
 
         final boolean slimFinal = slim;
-        Bukkit.getScheduler().runTask(SneakyCharacterManagerPaper.getInstance(), () -> {
-            SkinData.getOrCreate(url, slimFinal, 3, player);
-        });
-    }
 
+        player.getScheduler().run(SneakyCharacterManagerPaper.getInstance(),
+                cacheSkin -> SkinData.getOrCreate(url, slimFinal, 3, player), null);
+    }
 }
