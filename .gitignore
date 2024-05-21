@@ -1,6 +1,20 @@
+# Java
+*.class
+*.jar
+hs_err_pid*
+
+# Gradle
+build/
 .gradle
 **/build/
 !src/**/build/
+
+# IntelliJ
+.idea
+*.iml
+
+# RunServer
+paper/run/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -18,7 +32,6 @@ gradle-app.setting
 .classpath
 build.bat
 .vscode/settings.json
-
 
 /.idea
 API keys.txt

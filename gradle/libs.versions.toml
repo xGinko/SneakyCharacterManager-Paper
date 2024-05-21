@@ -1,0 +1,21 @@
+metadata.format.version = "1.1"
+
+[versions]
+paperdevbundle = "1.20.2-R0.1-SNAPSHOT"
+
+[libraries]
+paper = "io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT"
+bungee = "net.md-5:bungeecord-api:1.20-R0.1"
+gsit = "com.github.Gecolay.GSit:core:1.7.0"
+papi = "me.clip:placeholderapi:2.11.5"
+luckperms = "net.luckperms:api:5.4"
+configmaster = "com.github.thatsmusic99:ConfigurationMaster-API:v2.0.0-rc.1"
+httpclient = "org.apache.httpcomponents:httpclient:4.5.14"
+caffeine = "com.github.ben-manes.caffeine:caffeine:3.1.8"
+
+[plugins]
+runpaper = { id = "xyz.jpenilla.run-paper", version = "2.2.2" }
+shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
+userdev = { id = "io.papermc.paperweight.userdev", version = "1.7.0" }
+
+[bundles]

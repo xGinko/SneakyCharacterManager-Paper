@@ -1,6 +1,8 @@
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
-    id("io.papermc.paperweight.userdev") version "1.7.0"
+    id("scm.project-conventions")
+    java
+    alias(libs.plugins.userdev)
+    alias(libs.plugins.shadow)
 }
 
 repositories {
@@ -9,20 +11,21 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.20.2-R0.1-SNAPSHOT")
-    compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
-    implementation("org.apache.httpcomponents:httpclient:4.5.14")
-    compileOnly("me.clip:placeholderapi:2.11.5")
-    compileOnly("net.luckperms:api:5.4")
+    paperweight.paperDevBundle(libs.versions.paperdevbundle.get())
+    compileOnly(libs.paper)
+    implementation(libs.httpclient)
+    compileOnly(libs.papi)
+    compileOnly(libs.luckperms)
 }
 
 tasks {
-    processResources {
-        filesMatching("**/plugin.yml") {
-            expand(
-                "version" to project.version,
-                "description" to project.description
-            )
-        }
+    build.configure {
+        dependsOn("shadowJar")
+    }
+
+    shadowJar {
+        archiveFileName = "${rootProject.name}-${project.version}-paper.jar"
+        relocate("com.github.benmanes.caffeine", "net.sneakymouse.sneakycharactermanager.libs.caffeine")
+        relocate("io.github.thatsmusic99.configurationmaster", "net.sneakymouse.sneakycharactermanager.libs.configmaster")
     }
 }
