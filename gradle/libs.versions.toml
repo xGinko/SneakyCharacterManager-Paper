@@ -2,11 +2,12 @@ metadata.format.version = "1.1"
 
 [versions]
 paperdevbundle = "1.20.2-R0.1-SNAPSHOT"
+minecraftTargetVer = "1.20.2"
 
 [libraries]
 paper = "io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT"
 bungee = "net.md-5:bungeecord-api:1.20-R0.1"
-gsit = "com.github.Gecolay.GSit:core:1.7.0"
+gsit = "com.github.Gecolay.GSit:core:1.9.1"
 papi = "me.clip:placeholderapi:2.11.5"
 luckperms = "net.luckperms:api:5.4"
 configmaster = "com.github.thatsmusic99:ConfigurationMaster-API:v2.0.0-rc.1"

@@ -1,7 +1,7 @@
 package net.sneakymouse.sneakycharactermanager.listeners;
 
-import net.sneakymouse.sneakycharactermanager.struct.Toggleable;
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
+import net.sneakymouse.sneakycharactermanager.Toggleable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

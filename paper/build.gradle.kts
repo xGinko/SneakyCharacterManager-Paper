@@ -1,8 +1,8 @@
 plugins {
     id("scm.project-conventions")
-    java
     alias(libs.plugins.userdev)
     alias(libs.plugins.shadow)
+    alias(libs.plugins.runpaper)
 }
 
 repositories {
@@ -11,14 +11,20 @@ repositories {
 }
 
 dependencies {
+    implementation(projects.sneakycharactermanagerShared)
     paperweight.paperDevBundle(libs.versions.paperdevbundle.get())
     compileOnly(libs.paper)
-    implementation(libs.httpclient)
+    compileOnly(libs.gsit)
     compileOnly(libs.papi)
     compileOnly(libs.luckperms)
+    implementation(libs.httpclient)
 }
 
 tasks {
+    runServer {
+        minecraftVersion(libs.versions.minecraftTargetVer.get())
+    }
+
     build.configure {
         dependsOn("shadowJar")
     }

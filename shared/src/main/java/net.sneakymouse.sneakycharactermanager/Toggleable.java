@@ -1,4 +1,4 @@
-package net.sneakymouse.sneakycharactermanager.struct;
+package net.sneakymouse.sneakycharactermanager;
 
 public interface Toggleable {
     void enable();
