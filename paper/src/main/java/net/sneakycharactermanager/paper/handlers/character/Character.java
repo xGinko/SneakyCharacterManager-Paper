@@ -254,7 +254,7 @@ public class Character {
         }
     }
 
-    public static boolean isPlayedMapped(Player player) {
+    public static boolean isPlayerMapped(Player player) {
         return characterMap.containsKey(player);
     }
 

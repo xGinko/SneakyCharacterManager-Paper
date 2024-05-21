@@ -1,23 +1,21 @@
 package net.sneakycharactermanager.paper.listeners;
 
+import net.sneakycharactermanager.paper.SneakyCharacterManager;
+import net.sneakycharactermanager.paper.handlers.character.Character;
 import net.sneakycharactermanager.paper.struct.Toggleable;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerGameModeChangeEvent;
 
-import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
-
-import net.sneakycharactermanager.paper.SneakyCharacterManager;
-import net.sneakycharactermanager.paper.handlers.character.Character;;
-
-public class DeathListener implements Toggleable, Listener {
+public class GameModeListener implements Toggleable, Listener {
 
     private final SneakyCharacterManager plugin;
 
-    public DeathListener() {
+    public GameModeListener() {
         this.plugin = SneakyCharacterManager.getInstance();
     }
 
@@ -32,16 +30,18 @@ public class DeathListener implements Toggleable, Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        plugin.nametagManager.unnicknamePlayer(event.getPlayer());
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerRespawn(PlayerPostRespawnEvent event) {
+    public void onPlayerChangeGameMode(PlayerGameModeChangeEvent event){
         Player player = event.getPlayer();
+
+        if (event.getNewGameMode() == GameMode.SPECTATOR) {
+            plugin.nametagManager.unnicknamePlayer(player);
+            return;
+        }
+
+        plugin.nametagManager.unnicknamePlayer(player);
         Character character = Character.get(player);
         if (character != null) {
-            plugin.nametagManager.nicknamePlayer(player, character.getName());
+            player.getScheduler().runDelayed(plugin, applyNick -> plugin.nametagManager.nicknamePlayer(player, character.getName()), null, 2L);
         }
     }
 }

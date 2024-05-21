@@ -25,8 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BungeeMessageListener implements PluginMessageListener
-{
+public class BungeeMessageListener implements PluginMessageListener {
     
     @Override
     public void onPluginMessageReceived(@NotNull String channel, @NotNull Player player, byte @NotNull [] message) {
@@ -137,9 +136,8 @@ public class BungeeMessageListener implements PluginMessageListener
         if(requester == null) return;
 
         requester.sendMessage(ChatUtility.convertToComponent("&eFound the following usernames: "));
-        Bukkit.getAsyncScheduler().runNow(SneakyCharacterManager.getInstance(), (_s)->{
-
-            for(String information : characterData){
+        Bukkit.getAsyncScheduler().runNow(SneakyCharacterManager.getInstance(), asyncTask -> {
+            for (String information : characterData) {
                 String[] data = information.split("\\$");
                 String playerUUID = data[0];
                 String characterName = data[1];
@@ -152,11 +150,8 @@ public class BungeeMessageListener implements PluginMessageListener
                                 .hoverEvent(HoverEvent.showText(ChatUtility.convertToComponent("&6Player UUID: " + playerUUID)))
                                 .clickEvent(ClickEvent.copyToClipboard(playerUUID))
                 ));
-
             }
-
         });
-
     }
 
     public static List<String> readStringList(ByteArrayDataInput in) {
@@ -190,5 +185,4 @@ public class BungeeMessageListener implements PluginMessageListener
         List<String> tags = readStringList(in);
         return new Character(playerUUID, uuid, name, skin, slim, tags);
     }
-
 }

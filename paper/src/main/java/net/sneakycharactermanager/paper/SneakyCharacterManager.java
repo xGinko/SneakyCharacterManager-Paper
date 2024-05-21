@@ -18,6 +18,7 @@ import net.sneakycharactermanager.paper.handlers.nametags.NametagManager;
 import net.sneakycharactermanager.paper.handlers.skins.SkinPreloader;
 import net.sneakycharactermanager.paper.handlers.skins.SkinQueue;
 import net.sneakycharactermanager.paper.listeners.*;
+import net.sneakycharactermanager.paper.struct.Toggleable;
 import net.sneakycharactermanager.paper.util.BungeeMessagingUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -77,14 +78,17 @@ public class SneakyCharacterManager extends JavaPlugin {
         getServer().getMessenger().registerIncomingPluginChannel(this, "sneakymouse:" + IDENTIFIER, new BungeeMessageListener());
         getServer().getMessenger().registerOutgoingPluginChannel(this, "sneakymouse:" + IDENTIFIER);
 
-        getServer().getPluginManager().registerEvents(new ConnectionEventListeners(), this);
         getServer().getPluginManager().registerEvents(selectionMenu, this);
-        getServer().getPluginManager().registerEvents(new DeathListener(), this);
-        getServer().getPluginManager().registerEvents(new GamemodeEvents(), this);
-        getServer().getPluginManager().registerEvents(new VanishEvents(), this);
-        getServer().getPluginManager().registerEvents(new TeleportEvents(), this);
-
-        //getServer().getPluginManager().registerEvents(new net.sneakycharactermanager.paper.listeners.GSitListener(), this);
+        for (Toggleable listener : new Toggleable[] {
+                new JoinLeaveListener(),
+                new DeathListener(),
+                new GameModeListener(),
+                new VanishListener(),
+                // new GSitListener(),
+                new TeleportListener() }
+        ) {
+            listener.enable();
+        }
 
         getServer().getPluginManager().addPermission(new Permission(IDENTIFIER + ".*"));
         getServer().getPluginManager().addPermission(new Permission(CharacterSelectionMenu.CHARACTER_SLOTS_PERMISSION_NODE + "*"));
@@ -105,7 +109,7 @@ public class SneakyCharacterManager extends JavaPlugin {
 
         for (Player player : getServer().getOnlinePlayers()) {
             int taskId = getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-                if (!player.isOnline() || Character.isPlayedMapped(player)) {
+                if (!player.isOnline() || Character.isPlayerMapped(player)) {
                     getServer().getScheduler().cancelTask(taskIdMap.get(player));
                     taskIdMap.remove(player);
                 } else {
