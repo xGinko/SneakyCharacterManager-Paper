@@ -30,7 +30,7 @@ public class GSitListener implements Toggleable, Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerPose(PlayerPoseEvent event) {
+    public void onGSitPlayerStartPose(PlayerPoseEvent event) {
         Player player = event.getPlayer();
         Character character = Character.get(player);
         if (character != null) {
@@ -39,7 +39,7 @@ public class GSitListener implements Toggleable, Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerGetUpFromPose(PlayerGetUpPoseEvent event){
+    public void onGSitPlayerStopPose(PlayerGetUpPoseEvent event){
         Player player = event.getPlayer();
         Character character = Character.get(player);
         if (character != null) {
