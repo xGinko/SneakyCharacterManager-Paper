@@ -1,10 +1,10 @@
 package net.sneakymouse.sneakycharactermanager;
 
-import java.io.File;
-
 import net.md_5.bungee.api.plugin.Plugin;
 import net.sneakymouse.sneakycharactermanager.listeners.ConnectionEventListeners;
 import net.sneakymouse.sneakycharactermanager.listeners.PluginMessageListener;
+
+import java.io.File;
 
 public class SneakyCharacterManagerBungee extends Plugin {
 
@@ -19,7 +19,6 @@ public class SneakyCharacterManagerBungee extends Plugin {
         getProxy().registerChannel("sneakymouse:" + IDENTIFIER);
         getProxy().getPluginManager().registerListener(this, new PluginMessageListener());
         getProxy().getPluginManager().registerListener(this, new ConnectionEventListeners());
-
     }
 
     public static SneakyCharacterManagerBungee getInstance() {
@@ -27,7 +26,7 @@ public class SneakyCharacterManagerBungee extends Plugin {
     }
 
     public static File getCharacterDataFolder() {
-        File dir = new File(getInstance().getDataFolder(), "characterdata");
+        File dir = new File(instance.getDataFolder(), "characterdata");
 
         if (!dir.exists()) {
             dir.mkdirs();
@@ -35,5 +34,4 @@ public class SneakyCharacterManagerBungee extends Plugin {
 
         return dir;
     }
-
 }

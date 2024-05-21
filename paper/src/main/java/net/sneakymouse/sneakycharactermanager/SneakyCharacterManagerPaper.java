@@ -1,7 +1,6 @@
 package net.sneakymouse.sneakycharactermanager;
 
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
-import net.sneakycharactermanager.paper.admincommands.*;
 import net.sneakymouse.sneakycharactermanager.admincommands.*;
 import net.sneakymouse.sneakycharactermanager.commands.CommandChar;
 import net.sneakymouse.sneakycharactermanager.commands.CommandNames;
@@ -18,9 +17,7 @@ import net.sneakymouse.sneakycharactermanager.handlers.nametags.NameTagRefresher
 import net.sneakymouse.sneakycharactermanager.handlers.nametags.NametagManager;
 import net.sneakymouse.sneakycharactermanager.handlers.skins.SkinPreloader;
 import net.sneakymouse.sneakycharactermanager.handlers.skins.SkinQueue;
-import net.sneakycharactermanager.paper.listeners.*;
 import net.sneakymouse.sneakycharactermanager.listeners.*;
-import net.sneakymouse.sneakycharactermanager.struct.Toggleable;
 import net.sneakymouse.sneakycharactermanager.util.BungeeMessagingUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
