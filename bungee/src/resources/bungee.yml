@@ -1,4 +1,6 @@
 name: SneakyCharacterManager
-main: net.sneakycharactermanager.bungee.SneakyCharacterManager
-version: 1.0
+main: net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerBungee
+version: '${version}'
+description: '${description}'
+website: '${url}'
 author: Team Sneakymouse

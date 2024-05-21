@@ -24,5 +24,12 @@ tasks {
                 "url" to "https://github.com/Team-Sneakymouse/SneakyCharacterManager-Paper"
             )
         }
+        filesMatching("**/bungee.yml") {
+            expand(
+                "version" to project.version,
+                "description" to project.description,
+                "url" to "https://github.com/Team-Sneakymouse/SneakyCharacterManager-Paper"
+            )
+        }
     }
 }

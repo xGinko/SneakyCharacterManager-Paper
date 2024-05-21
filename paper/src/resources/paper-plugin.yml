@@ -1,10 +1,10 @@
 name: SneakyCharacterManager
-version: ${version}
-main: net.sneakycharactermanager.paper.SneakyCharacterManager
-description: Paper/bungee plugin for switching characters in DvZ and LoM
+main: net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper
+version: '${version}'
+description: '${description}'
+website: '${url}'
 author: Team Sneakymouse
-website: https://rawb.tv
-api-version: 1.19
+api-version: '1.20'
 
 dependencies:
   server:
