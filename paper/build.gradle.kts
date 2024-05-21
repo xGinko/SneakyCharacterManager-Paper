@@ -6,17 +6,23 @@ plugins {
 }
 
 repositories {
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-	mavenCentral()
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") {
+        name = "placeholderapi-repo"
+    }
+    maven("https://jitpack.io") {
+        name = "jitpack"
+    }
 }
 
 dependencies {
     implementation(projects.sneakycharactermanagerShared)
-    paperweight.paperDevBundle(libs.versions.paperdevbundle.get())
+
     compileOnly(libs.paper)
+    paperweight.paperDevBundle(libs.versions.paperdevbundle.get())
     compileOnly(libs.gsit)
     compileOnly(libs.papi)
     compileOnly(libs.luckperms)
+
     implementation(libs.httpclient)
 }
 

@@ -23,9 +23,6 @@ dependencyResolutionManagement {
         maven("https://repo.aikar.co/content/groups/aikar/") {
             name = "aikar-repo"
         }
-        maven("https://jitpack.io") {
-            name = "jitpack"
-        }
         mavenCentral()
     }
 }
