@@ -10,9 +10,10 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class CommandCharAdmin extends CommandBaseAdmin {
 
@@ -24,45 +25,45 @@ public class CommandCharAdmin extends CommandBaseAdmin {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player opener)) {
+        if (!(sender instanceof Player admin)) {
             sender.sendMessage(ChatUtility.convertToComponent("&4Must be a player to run this command"));
             return false;
         }
 
         if (args.length != 1) {
-            opener.sendMessage(ChatUtility.convertToComponent("&4Invalid Usage: " + this.usageMessage));
+            admin.sendMessage(ChatUtility.convertToComponent("&4Invalid Usage: " + this.usageMessage));
             return false;
         }
 
-        Bukkit.getAsyncScheduler().runNow(SneakyCharacterManagerPaper.getInstance(), (s) -> {
-            OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
-            Bukkit.getScheduler().runTask(SneakyCharacterManagerPaper.getInstance(), () -> {
-                String playerUUID = player.getUniqueId().toString();
-                File playerDir = new File(SneakyCharacterManagerPaper.getCharacterDataFolder(), playerUUID);
-                if (playerDir.exists()) {
-                    opener.sendMessage(ChatUtility.convertToComponent("&aLoading character admin menu for player: &b" + args[0]));
-                    SneakyCharacterManagerPaper.getInstance().selectionMenu.openAdminMenu(player, opener);
-                } else {
-                    opener.sendMessage(ChatUtility.convertToComponent("&aUnknown player: &b" + args[0]));
-                }
-            });
-        });
+        Player target = Bukkit.getPlayer(args[0]);
+        if (target == null) {
+            admin.sendMessage(ChatUtility.convertToComponent("&aUnknown player: &b" + args[0]));
+            return true;
+        }
+
+        CompletableFuture.supplyAsync(() -> new File(SneakyCharacterManagerPaper.getCharacterDataFolder(), target.getUniqueId().toString()).exists())
+                .thenAccept(playerFolderExists -> {
+                    if (!playerFolderExists) {
+                        admin.sendMessage(ChatUtility.convertToComponent("&aUnknown player: &b" + args[0]));
+                        return;
+                    }
+
+                    admin.sendMessage(ChatUtility.convertToComponent("&aLoading character admin menu for player: &b" + args[0]));
+                    SneakyCharacterManagerPaper plugin = SneakyCharacterManagerPaper.getInstance();
+                    target.getScheduler().execute(plugin, () -> plugin.selectionMenu.openAdminMenu(target, admin), null, 1L);
+                });
         return true;
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args, Location location) {
-        if (args.length == 1) {
-            List<String> playerNames = new ArrayList<>();
-
-            for (@NotNull OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-                if (player.getName() != null && player.getName().toLowerCase().startsWith(args[0].toLowerCase()) && !player.getName().equals("CMI-Fake-Operator")) playerNames.add(player.getName());
-            }
-
-            return playerNames;
-        } else {
-            return Collections.emptyList(); // or simply "return new ArrayList<>();"
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args, Location location) {
+        if (args.length != 1) {
+            return Collections.emptyList();
         }
+
+        return Arrays.stream(Bukkit.getOfflinePlayers()) // Using getOfflinePlayers is VERY intense. This will need to be cached.
+                .map(OfflinePlayer::getName)
+                .filter(name -> name != null && name.toLowerCase().startsWith(args[0].toLowerCase()) && !name.contains("CMI-Fake-Operator"))
+                .toList();
     }
-    
 }
