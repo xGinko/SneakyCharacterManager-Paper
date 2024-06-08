@@ -48,7 +48,7 @@ public class Character {
         this.slim = slim;
         this.tags = tags;
 
-        File playerDir = new File(SneakyCharacterManagerPaper.getCharacterDataFolder(), playerUUID);
+        File playerDir = new File(SneakyCharacterManagerPaper.getCharDataFolder(), playerUUID);
         boolean firstLogin = false;
 
         if (!playerDir.exists()) {
@@ -100,7 +100,7 @@ public class Character {
             if (character != null) character.save();
         }
 
-        File playerDir = new File(SneakyCharacterManagerPaper.getCharacterDataFolder(), this.player.getUniqueId().toString());
+        File playerDir = new File(SneakyCharacterManagerPaper.getCharDataFolder(), this.player.getUniqueId().toString());
         File characterFile = new File(playerDir, this.characterUUID + ".yml");
 
         if (!characterFile.exists()) {
@@ -208,7 +208,7 @@ public class Character {
     }
 
     public void save() {
-        File playerDir = new File(SneakyCharacterManagerPaper.getCharacterDataFolder(), this.player.getUniqueId().toString());
+        File playerDir = new File(SneakyCharacterManagerPaper.getCharDataFolder(), this.player.getUniqueId().toString());
 
         if (!playerDir.exists()) {
             playerDir.mkdirs();

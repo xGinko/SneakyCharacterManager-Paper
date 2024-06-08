@@ -24,7 +24,7 @@ public class CommandCharScan extends CommandBaseAdmin {
         this.description = "Scan all inventories for a item id or name";
         this.usageMessage = "/charscan [name/id] [Item Name / Item ID]";
 
-        characterDataFolder = SneakyCharacterManagerPaper.getCharacterDataFolder();
+        characterDataFolder = SneakyCharacterManagerPaper.getCharDataFolder();
     }
 
     @Override

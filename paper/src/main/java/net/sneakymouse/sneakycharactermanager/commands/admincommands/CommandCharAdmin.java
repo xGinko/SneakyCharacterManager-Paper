@@ -35,23 +35,17 @@ public class CommandCharAdmin extends CommandBaseAdmin {
             return false;
         }
 
-        Player target = Bukkit.getPlayer(args[0]);
-        if (target == null) {
-            admin.sendMessage(ChatUtility.convertToComponent("&aUnknown player: &b" + args[0]));
-            return true;
-        }
+        CompletableFuture.supplyAsync(() -> Bukkit.getOfflinePlayer(args[0])).thenAccept(offlinePlayer -> {
+            if (!new File(SneakyCharacterManagerPaper.getCharDataFolder(), offlinePlayer.getUniqueId().toString()).exists()) {
+                admin.sendMessage(ChatUtility.convertToComponent("&aUnknown player: &b" + args[0]));
+                return;
+            }
 
-        CompletableFuture.supplyAsync(() -> new File(SneakyCharacterManagerPaper.getCharacterDataFolder(), target.getUniqueId().toString()).exists())
-                .thenAccept(playerFolderExists -> {
-                    if (!playerFolderExists) {
-                        admin.sendMessage(ChatUtility.convertToComponent("&aUnknown player: &b" + args[0]));
-                        return;
-                    }
+            admin.sendMessage(ChatUtility.convertToComponent("&aLoading character admin menu for player: &b" + args[0]));
 
-                    admin.sendMessage(ChatUtility.convertToComponent("&aLoading character admin menu for player: &b" + args[0]));
-                    SneakyCharacterManagerPaper plugin = SneakyCharacterManagerPaper.getInstance();
-                    target.getScheduler().execute(plugin, () -> plugin.selectionMenu.openAdminMenu(target, admin), null, 1L);
-                });
+            SneakyCharacterManagerPaper plugin = SneakyCharacterManagerPaper.getInstance();
+            admin.getScheduler().execute(plugin, () -> plugin.selectionMenu.openAdminMenu(offlinePlayer, admin), null, 1L);
+        });
         return true;
     }
 

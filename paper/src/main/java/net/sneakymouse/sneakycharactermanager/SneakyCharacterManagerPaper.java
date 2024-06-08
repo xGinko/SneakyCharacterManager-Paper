@@ -65,7 +65,7 @@ public class SneakyCharacterManagerPaper extends JavaPlugin {
         saveDefaultConfig();
 
         if (getConfig().getBoolean("deleteCharacterDataOnServerStart", false)) {
-            deleteFolderContents(getCharacterDataFolder());
+            deleteFolderContents(getCharDataFolder());
         }
 
         getServer().getCommandMap().register(IDENTIFIER, new CommandChar());
@@ -171,7 +171,7 @@ public class SneakyCharacterManagerPaper extends JavaPlugin {
         return papiActive;
     }
 
-    public static File getCharacterDataFolder() {
+    public static File getCharDataFolder() {
         File dir = new File(getInstance().getDataFolder(), "characterdata");
         if (!dir.exists()) {
             dir.mkdirs();

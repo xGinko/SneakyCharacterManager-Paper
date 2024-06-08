@@ -281,7 +281,7 @@ public class CharacterSelectionMenu implements Listener {
 
             String encoded = InventoryUtility.inventoryToBase64(41, dummyItems);
 
-            File playerDir = new File(SneakyCharacterManagerPaper.getCharacterDataFolder(), this.target.getUniqueId().toString());
+            File playerDir = new File(SneakyCharacterManagerPaper.getCharDataFolder(), this.target.getUniqueId().toString());
             File characterFile = new File(playerDir, this.characterUUID + ".yml");
             YamlConfiguration config = YamlConfiguration.loadConfiguration(characterFile);
             config.set("inventory", encoded);
@@ -350,7 +350,7 @@ public class CharacterSelectionMenu implements Listener {
                 else
                     playerUUID = player.getUniqueId().toString();
 
-                File playerDir = new File(SneakyCharacterManagerPaper.getCharacterDataFolder(), playerUUID);
+                File playerDir = new File(SneakyCharacterManagerPaper.getCharDataFolder(), playerUUID);
                 File characterFile = new File(playerDir, characterUUID + ".yml");
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(characterFile);
 
