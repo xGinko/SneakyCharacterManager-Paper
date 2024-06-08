@@ -1,11 +1,5 @@
 package net.sneakymouse.sneakycharactermanager.handlers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.context.ContextCalculator;
@@ -13,6 +7,11 @@ import net.luckperms.api.context.ContextConsumer;
 import net.luckperms.api.context.ContextSet;
 import net.luckperms.api.context.ImmutableContextSet;
 import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
+import org.bukkit.entity.Player;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContextCalculatorCharacterTag implements ContextCalculator<Player> {
 

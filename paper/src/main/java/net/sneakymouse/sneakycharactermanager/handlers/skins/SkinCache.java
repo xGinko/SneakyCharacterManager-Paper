@@ -1,11 +1,10 @@
 package net.sneakymouse.sneakycharactermanager.handlers.skins;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import com.destroystokyo.paper.profile.ProfileProperty;
 
 import javax.annotation.Nullable;
-
-import com.destroystokyo.paper.profile.ProfileProperty;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class SkinCache {
 

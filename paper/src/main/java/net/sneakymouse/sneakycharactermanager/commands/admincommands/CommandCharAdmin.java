@@ -1,9 +1,4 @@
-package net.sneakymouse.sneakycharactermanager.admincommands;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+package net.sneakymouse.sneakycharactermanager.commands.admincommands;
 
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
 import net.sneakymouse.sneakycharactermanager.util.ChatUtility;
@@ -13,6 +8,11 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CommandCharAdmin extends CommandBaseAdmin {
 

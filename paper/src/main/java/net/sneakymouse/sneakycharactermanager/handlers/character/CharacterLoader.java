@@ -3,7 +3,7 @@ package net.sneakymouse.sneakycharactermanager.handlers.character;
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
-import net.sneakymouse.sneakycharactermanager.consolecommands.ConsoleCommandCharTemp;
+import net.sneakymouse.sneakycharactermanager.commands.consolecommands.ConsoleCommandCharTemp;
 import net.sneakymouse.sneakycharactermanager.handlers.skins.SkinCache;
 import net.sneakymouse.sneakycharactermanager.handlers.skins.SkinData;
 import net.sneakymouse.sneakycharactermanager.util.SkinUtil;

@@ -1,6 +1,21 @@
-package net.sneakymouse.sneakycharactermanager.admincommands;
+package net.sneakymouse.sneakycharactermanager.commands.admincommands;
 
-import java.awt.Point;
+import com.destroystokyo.paper.profile.PlayerProfile;
+import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
+import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
+import net.sneakymouse.sneakycharactermanager.handlers.skins.SkinData;
+import net.sneakymouse.sneakycharactermanager.util.ChatUtility;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.profile.PlayerTextures;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -22,23 +37,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import javax.imageio.ImageIO;
-
-import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
-import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
-import net.sneakymouse.sneakycharactermanager.handlers.skins.SkinData;
-import net.sneakymouse.sneakycharactermanager.util.ChatUtility;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.profile.PlayerTextures;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import com.destroystokyo.paper.profile.PlayerProfile;
 
 public class CommandUniform extends CommandBaseAdmin {
 

@@ -1,4 +1,4 @@
-package net.sneakymouse.sneakycharactermanager.admincommands;
+package net.sneakymouse.sneakycharactermanager.commands.admincommands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;

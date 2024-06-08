@@ -1,9 +1,8 @@
-package net.sneakymouse.sneakycharactermanager.commands;
+package net.sneakymouse.sneakycharactermanager.commands.usercommands;
 
-import java.util.*;
-
-import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
+import net.sneakymouse.sneakycharactermanager.commands.consolecommands.ConsoleCommandCharTemp;
+import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
 import net.sneakymouse.sneakycharactermanager.util.BungeeMessagingUtil;
 import net.sneakymouse.sneakycharactermanager.util.ChatUtility;
 import org.bukkit.Location;
@@ -11,7 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import net.sneakymouse.sneakycharactermanager.consolecommands.ConsoleCommandCharTemp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandNick extends CommandBase {
 

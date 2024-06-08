@@ -1,15 +1,14 @@
-package net.sneakymouse.sneakycharactermanager.admincommands;
+package net.sneakymouse.sneakycharactermanager.commands.admincommands;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
 import net.sneakymouse.sneakycharactermanager.util.BungeeMessagingUtil;
 import net.sneakymouse.sneakycharactermanager.util.ChatUtility;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandSaveTemplateChar extends CommandBaseAdmin {
 

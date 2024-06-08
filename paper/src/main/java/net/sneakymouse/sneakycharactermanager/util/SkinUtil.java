@@ -1,10 +1,9 @@
 package net.sneakymouse.sneakycharactermanager.util;
 
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 public class SkinUtil {
     

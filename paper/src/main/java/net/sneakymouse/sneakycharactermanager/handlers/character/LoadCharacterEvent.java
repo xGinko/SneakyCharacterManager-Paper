@@ -1,12 +1,12 @@
 package net.sneakymouse.sneakycharactermanager.handlers.character;
 
-import java.util.List;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class LoadCharacterEvent extends PlayerEvent implements Cancellable {
 

@@ -1,6 +1,4 @@
-package net.sneakymouse.sneakycharactermanager.commands;
-
-import java.util.*;
+package net.sneakymouse.sneakycharactermanager.commands.usercommands;
 
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
 import net.sneakymouse.sneakycharactermanager.util.BungeeMessagingUtil;
@@ -9,6 +7,11 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CommandChar extends CommandBase {
 

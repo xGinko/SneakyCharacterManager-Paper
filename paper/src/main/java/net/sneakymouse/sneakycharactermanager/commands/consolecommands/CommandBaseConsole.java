@@ -1,4 +1,4 @@
-package net.sneakymouse.sneakycharactermanager.consolecommands;
+package net.sneakymouse.sneakycharactermanager.commands.consolecommands;
 
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
 import org.bukkit.command.Command;

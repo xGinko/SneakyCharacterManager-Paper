@@ -1,16 +1,13 @@
-package net.sneakymouse.sneakycharactermanager.commands;
+package net.sneakymouse.sneakycharactermanager.commands.usercommands;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
+import net.sneakymouse.sneakycharactermanager.commands.consolecommands.ConsoleCommandCharTemp;
+import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
+import net.sneakymouse.sneakycharactermanager.handlers.character.CharacterLoader;
 import net.sneakymouse.sneakycharactermanager.util.BungeeMessagingUtil;
 import net.sneakymouse.sneakycharactermanager.util.ChatUtility;
 import org.apache.http.HttpResponse;
@@ -28,14 +25,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.destroystokyo.paper.profile.PlayerProfile;
-import com.destroystokyo.paper.profile.ProfileProperty;
-
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.event.HoverEvent;
-import net.sneakymouse.sneakycharactermanager.consolecommands.ConsoleCommandCharTemp;
-import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
-import net.sneakymouse.sneakycharactermanager.handlers.character.CharacterLoader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandSkin extends CommandBase {
 

@@ -1,7 +1,7 @@
-package net.sneakymouse.sneakycharactermanager.consolecommands;
+package net.sneakymouse.sneakycharactermanager.commands.consolecommands;
 
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
-import net.sneakymouse.sneakycharactermanager.commands.CommandChar;
+import net.sneakymouse.sneakycharactermanager.commands.usercommands.CommandChar;
 import net.sneakymouse.sneakycharactermanager.util.BungeeMessagingUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

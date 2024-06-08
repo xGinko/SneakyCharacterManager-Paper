@@ -1,7 +1,7 @@
 package net.sneakymouse.sneakycharactermanager.handlers.character;
 
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
-import net.sneakymouse.sneakycharactermanager.consolecommands.ConsoleCommandCharDisable;
+import net.sneakymouse.sneakycharactermanager.commands.consolecommands.ConsoleCommandCharDisable;
 import net.sneakymouse.sneakycharactermanager.util.InventoryUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,7 +19,11 @@ import javax.annotation.Nullable;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

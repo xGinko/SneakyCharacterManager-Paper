@@ -1,9 +1,13 @@
 package net.sneakymouse.sneakycharactermanager.handlers.nametags;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
+import io.papermc.paper.adventure.PaperAdventure;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.SynchedEntityData.DataValue;
+import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.EntityType;
 import net.sneakymouse.sneakycharactermanager.util.ChatUtility;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -15,14 +19,9 @@ import org.bukkit.entity.TextDisplay;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import io.papermc.paper.adventure.PaperAdventure;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.network.syncher.SynchedEntityData.DataValue;
-import net.minecraft.world.entity.Entity.RemovalReason;
-import net.minecraft.world.entity.EntityType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class NicknameEntity {
 

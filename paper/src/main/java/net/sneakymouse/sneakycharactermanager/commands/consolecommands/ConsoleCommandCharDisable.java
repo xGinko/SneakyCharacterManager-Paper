@@ -1,7 +1,4 @@
-package net.sneakymouse.sneakycharactermanager.consolecommands;
-
-import java.util.ArrayList;
-import java.util.List;
+package net.sneakymouse.sneakycharactermanager.commands.consolecommands;
 
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
 import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
@@ -9,6 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConsoleCommandCharDisable extends CommandBaseConsole {
 

@@ -2,9 +2,9 @@ package net.sneakymouse.sneakycharactermanager.listeners;
 
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
 import net.sneakymouse.sneakycharactermanager.Toggleable;
-import net.sneakymouse.sneakycharactermanager.commands.CommandChar;
-import net.sneakymouse.sneakycharactermanager.consolecommands.ConsoleCommandCharDisable;
-import net.sneakymouse.sneakycharactermanager.consolecommands.ConsoleCommandCharTemp;
+import net.sneakymouse.sneakycharactermanager.commands.consolecommands.ConsoleCommandCharDisable;
+import net.sneakymouse.sneakycharactermanager.commands.consolecommands.ConsoleCommandCharTemp;
+import net.sneakymouse.sneakycharactermanager.commands.usercommands.CommandChar;
 import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
 import net.sneakymouse.sneakycharactermanager.handlers.skins.SkinCache;
 import net.sneakymouse.sneakycharactermanager.util.BungeeMessagingUtil;

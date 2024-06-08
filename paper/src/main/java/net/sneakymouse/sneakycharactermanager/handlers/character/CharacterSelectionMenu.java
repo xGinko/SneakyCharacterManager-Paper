@@ -4,7 +4,7 @@ import com.destroystokyo.paper.profile.ProfileProperty;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
-import net.sneakymouse.sneakycharactermanager.commands.CommandChar;
+import net.sneakymouse.sneakycharactermanager.commands.usercommands.CommandChar;
 import net.sneakymouse.sneakycharactermanager.handlers.skins.SkinCache;
 import net.sneakymouse.sneakycharactermanager.handlers.skins.SkinData;
 import net.sneakymouse.sneakycharactermanager.util.BungeeMessagingUtil;
@@ -34,7 +34,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class CharacterSelectionMenu implements Listener {
 

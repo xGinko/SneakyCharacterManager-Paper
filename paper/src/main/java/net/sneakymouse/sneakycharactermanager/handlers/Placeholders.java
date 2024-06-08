@@ -1,11 +1,10 @@
 package net.sneakymouse.sneakycharactermanager.handlers;
 
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
+import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
 
 public class Placeholders extends PlaceholderExpansion {
 

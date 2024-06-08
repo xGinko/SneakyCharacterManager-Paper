@@ -1,7 +1,9 @@
 package net.sneakymouse.sneakycharactermanager.listeners;
 
+import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
 import net.sneakymouse.sneakycharactermanager.Toggleable;
+import net.sneakymouse.sneakycharactermanager.handlers.character.Character;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -9,9 +11,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
-
-import net.sneakymouse.sneakycharactermanager.handlers.character.Character;;
+;
 
 public class DeathListener implements Toggleable, Listener {
 

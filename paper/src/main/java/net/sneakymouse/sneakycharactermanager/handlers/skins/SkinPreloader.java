@@ -1,12 +1,13 @@
 package net.sneakymouse.sneakycharactermanager.handlers.skins;
 
-import java.util.*;
-
 import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
 import net.sneakymouse.sneakycharactermanager.util.BungeeMessagingUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SkinPreloader extends BukkitRunnable {
 

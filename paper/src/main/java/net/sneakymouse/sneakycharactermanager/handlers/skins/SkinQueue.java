@@ -1,5 +1,9 @@
 package net.sneakymouse.sneakycharactermanager.handlers.skins;
 
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
+import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
+import org.bukkit.Bukkit;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -8,11 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
-
-import net.sneakymouse.sneakycharactermanager.SneakyCharacterManagerPaper;
-import org.bukkit.Bukkit;
-
-import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 
 public class SkinQueue {
 

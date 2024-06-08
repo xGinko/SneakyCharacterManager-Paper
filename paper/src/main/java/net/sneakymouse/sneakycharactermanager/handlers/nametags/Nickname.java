@@ -1,11 +1,10 @@
 package net.sneakymouse.sneakycharactermanager.handlers.nametags;
 
-import java.util.UUID;
-
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import java.util.UUID;
 
 public class Nickname {
 

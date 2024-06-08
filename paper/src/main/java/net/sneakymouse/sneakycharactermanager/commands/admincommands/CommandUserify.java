@@ -1,4 +1,4 @@
-package net.sneakymouse.sneakycharactermanager.admincommands;
+package net.sneakymouse.sneakycharactermanager.commands.admincommands;
 
 import net.sneakymouse.sneakycharactermanager.util.BungeeMessagingUtil;
 import net.sneakymouse.sneakycharactermanager.util.ChatUtility;
